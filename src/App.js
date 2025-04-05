@@ -1,31 +1,45 @@
 import React, { useState } from 'react';
 
 function App() {
-  const [arr, setArr] = useState(["task", "task", "task"]);
+  const [tasks, setTasks] = useState([]);
+  const [newTask, setNewTask] = useState('');
 
-  const add = () => {
-    setArr([...arr, `task`]);
-    
+  const handleInputChange = (e) => {
+    setNewTask(e.target.value);
   };
 
-  const remove = (indexToRemove) => {
-    setArr(arr.filter((_, index) => index !== indexToRemove));
+  const addTask = () => {
+    if (newTask.trim() !== '') {
+      setTasks([...tasks, newTask.trim()]);
+      setNewTask('');
+    }
+  };
+
+  const removeTask = (indexToRemove) => {
+    setTasks(tasks.filter((_, index) => index !== indexToRemove));
   };
 
   return (
     <div style={{ textAlign: 'center' }}>
       <h1>Day 8 Task</h1>
-      <ul style={{listStyleType:"none"}}>
-        {arr.map((task, index) => (
+      <input
+        type="text"
+        value={newTask}
+        onChange={handleInputChange}
+        placeholder="Enter new task"
+      />
+      <button onClick={addTask}>add</button>
+
+      <ul style={{ listStyleType: "none" }}>
+        {tasks.map((task, index) => (
           <li key={index}>
             {task}
-            <button onClick={() => remove(index)}>x</button>
+            <button onClick={() => removeTask(index)}>x</button>
           </li>
         ))}
       </ul>
-      <button onClick={add}>add</button>
     </div>
   );
 }
 
-export default App;
+export default App; 
